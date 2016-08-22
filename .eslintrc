@@ -1,3 +1,9 @@
 {
-  "extends": "airbnb/legacy"
+  "extends": "airbnb/legacy",
+  "env": {
+    "mocha": true
+  },
+  "globals": {
+    "beforeEach": true
+  }
 }
