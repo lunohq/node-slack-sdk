@@ -23,8 +23,10 @@ var getRtmClient = function getRtmClient() {
 
 var getMemoryDataStore = function getMemoryDataStore() {
   var dataStore = new MemoryDataStore();
-  dataStore.cacheRtmStart(lodash.cloneDeep(rtmStartFixture));
-  return dataStore;
+  return dataStore.cacheRtmStart(lodash.cloneDeep(rtmStartFixture))
+    .then(function () {
+      return dataStore;
+    });
 };
 
 

@@ -6,6 +6,7 @@
   "scripts": {
     "lint": "eslint . --ignore-path .gitignore",
     "mocha": "mocha --recursive --reporter spec test",
+    "mocha-debug": "mocha debug --recursive --reporter spec test",
     "test": "npm run mocha && npm run lint",
     "cover": "istanbul cover -x **/facets/*.js  --report lcovonly _mocha -- --recursive",
     "coveralls": "npm run cover && istanbul-coveralls",
@@ -22,7 +23,7 @@
   },
   "dependencies": {
     "async": "^1.5.0",
-    "bluebird": "^3.3.3",
+    "bluebird": "^3.4.1",
     "eventemitter3": "^1.1.1",
     "https-proxy-agent": "^1.0.0",
     "inherits": "^2.0.1",

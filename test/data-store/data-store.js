@@ -14,25 +14,26 @@ describe('DataStore', function () {
   describe('#handleRtmMessage()', function () {
 
     var testMessageHandler = function testMessageHandler(eventType, isMsg, optExpectedHandlerType) {
-      var dataStore = getMemoryDataStore();
-      sinon.spy(dataStore._messageHandlers, optExpectedHandlerType || eventType);
-
-      dataStore.handleRtmMessage(
-        '', '', isMsg ? RTM_EVENTS.MESSAGE : eventType, getRTMMessageFixture(eventType));
-      expect(dataStore._messageHandlers[optExpectedHandlerType || eventType].calledOnce)
-        .to.equal(true);
+      return getMemoryDataStore()
+        .then(function (dataStore) {
+          sinon.spy(dataStore._messageHandlers, optExpectedHandlerType || eventType);
+          dataStore.handleRtmMessage(
+            '', '', isMsg ? RTM_EVENTS.MESSAGE : eventType, getRTMMessageFixture(eventType));
+          expect(dataStore._messageHandlers[optExpectedHandlerType || eventType].calledOnce)
+            .to.equal(true);
+        });
     };
 
     it('calls the message handler for non-message events', function () {
-      testMessageHandler(RTM_EVENTS.PRESENCE_CHANGE);
+      return testMessageHandler(RTM_EVENTS.PRESENCE_CHANGE);
     });
 
     it('calls the message::subtype handler for messages with a subtype handler', function () {
-      testMessageHandler(makeMessageEventWithSubtype(MSG_SUBTYPES.MESSAGE_DELETED), true);
+      return testMessageHandler(makeMessageEventWithSubtype(MSG_SUBTYPES.MESSAGE_DELETED), true);
     });
 
     it('calls the `rtm_client_add_message` handler for msgs with no subtype handler', function () {
-      testMessageHandler(
+      return testMessageHandler(
         makeMessageEventWithSubtype(MSG_SUBTYPES.GROUP_NAME),
         true,
         makeMessageEventWithSubtype('rtm_client_add_message')
